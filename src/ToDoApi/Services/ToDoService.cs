@@ -13,10 +13,10 @@ public class ToDoService
     private readonly ToDoDbContext _dbContext;
     private readonly IDatabase _redisCache;
 
-    public ToDoService(ToDoDbContext dbContext, IConnectionMultiplexer reditMuxer)
+    public ToDoService(ToDoDbContext dbContext, IDatabase redisCache)
     {
         _dbContext = dbContext;
-        _redisCache = reditMuxer.GetDatabase();
+        _redisCache = redisCache;
     }
 
     public async Task<List<Todo>> GetAllToDosAsync()
@@ -30,6 +30,7 @@ public class ToDoService
         var todo = new Todo
         {
             Name = request.Name,
+            Description = request.Description,
             DueDate = request.DueDate,
             Status = ToDoStatus.Pending,
             CreatedAt = DateTime.UtcNow,
@@ -102,7 +103,5 @@ public class ToDoService
         await _dbContext.SaveChangesAsync();
         await _redisCache.KeyDeleteAsync($"todo_{id}"); // Evict stale values, repopulate on next GET
         return todo;
-
-
     }
 }

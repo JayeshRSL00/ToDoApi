@@ -1,4 +1,18 @@
-bin/
-obj/
+# Build output
+**/bin/
+**/obj/
+
+# Git
 .git/
+.gitignore
+
+# IDEs
 .vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md

@@ -17,10 +17,10 @@ builder.Services.AddDbContext<ToDoDbContext>(options =>
         builder.Configuration.GetConnectionString("Postgres")
     );
 });
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+builder.Services.AddSingleton<StackExchange.Redis.IDatabase>(sp =>
 {
-    return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis"));
-    
+    var muxer = ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis")!);
+    return muxer.GetDatabase();
 });
 
 var app = builder.Build();
