@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace ToDoApi.Services;
 
-public class ToDoService
+public class ToDoService : IToDoService
 {
 
     private readonly ToDoDbContext _dbContext;

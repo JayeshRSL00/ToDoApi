@@ -9,9 +9,9 @@ namespace ToDoApi.Controllers;
 [Route("api/[controller]")]
 public class ToDoController : ControllerBase
 {
-    private readonly ToDoService _todoService;
+    private readonly IToDoService _todoService;
 
-    public ToDoController(ToDoService toDoService)
+    public ToDoController(IToDoService toDoService)
     {
         _todoService = toDoService;
     }

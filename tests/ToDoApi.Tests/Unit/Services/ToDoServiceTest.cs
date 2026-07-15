@@ -101,6 +101,7 @@ public class ToDoServiceTest
 
         Assert.NotNull(result);
         Assert.Equal(todo.Name, result.Name);
+        redisMock.Verify(r => r.StringGetAsync(cacheKey, It.IsAny<CommandFlags>()), Times.Once);
     }
 
     [Fact]
@@ -120,6 +121,7 @@ public class ToDoServiceTest
 
         Assert.NotNull(result);
         Assert.Equal(todo.Name, result.Name);
+        redisMock.Verify(r => r.StringGetAsync(cacheKey, It.IsAny<CommandFlags>()), Times.Once);
         redisMock.Verify(r => r.StringSetAsync(It.IsAny<RedisKey>(), It.IsAny<RedisValue>(), It.IsAny<TimeSpan?>(), It.IsAny<When>(), It.IsAny<CommandFlags>()), Times.Never);
     }
 
@@ -140,6 +142,7 @@ public class ToDoServiceTest
 
         Assert.NotNull(result);
         Assert.Equal(todo.Name, result.Name);
+        redisMock.Verify(r => r.StringSetAsync($"todo_{todo.Id}", It.IsAny<RedisValue>(), TimeSpan.FromMinutes(10)), Times.Once);
     }
 
     [Fact]
@@ -152,8 +155,6 @@ public class ToDoServiceTest
         var redisMock = new Mock<IDatabase>();
         redisMock.Setup(r => r.StringGetAsync($"todo_{todo.Id}", It.IsAny<CommandFlags>()))
             .ReturnsAsync(RedisValue.Null);
-        redisMock.Setup(r => r.StringSetAsync(It.IsAny<RedisKey>(), It.IsAny<RedisValue>(), It.IsAny<TimeSpan?>(), It.IsAny<When>(), It.IsAny<CommandFlags>()))
-            .ReturnsAsync(true);
 
         var serviceWithCache = new ToDoService(_dbContext, redisMock.Object);
 
@@ -175,6 +176,8 @@ public class ToDoServiceTest
         var result = await serviceWithCache.GetById(999);
 
         Assert.Null(result);
+        redisMock.Verify(r => r.StringGetAsync("todo_999", It.IsAny<CommandFlags>()), Times.Once);
+        redisMock.Verify(r => r.StringSetAsync(It.IsAny<RedisKey>(), It.IsAny<RedisValue>(), It.IsAny<TimeSpan?>(), It.IsAny<When>(), It.IsAny<CommandFlags>()), Times.Never);
     }
 
     [Fact]
