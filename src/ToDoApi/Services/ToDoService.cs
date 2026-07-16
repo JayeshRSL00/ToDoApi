@@ -104,4 +104,23 @@ public class ToDoService : IToDoService
         await _redisCache.KeyDeleteAsync($"todo_{id}"); // Evict stale values, repopulate on next GET
         return todo;
     }
+
+    public async Task<bool> DeleteAll()
+    {
+        var todos = await _dbContext.ToDos.ToListAsync();
+        if (todos.Count == 0)
+        {
+            return false;
+        }
+
+        _dbContext.ToDos.RemoveRange(todos);
+        await _dbContext.SaveChangesAsync();
+
+        // Clear all related cache entries
+        foreach (var todo in todos)
+        {
+            await _redisCache.KeyDeleteAsync($"todo_{todo.Id}");
+        }
+        return true;
+    }
 }

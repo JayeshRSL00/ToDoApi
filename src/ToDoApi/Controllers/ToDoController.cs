@@ -53,6 +53,17 @@ public class ToDoController : ControllerBase
         return NotFound();
     }
 
+    [HttpDelete]
+    public async Task<ActionResult<bool>> DeleteAllToDos()
+    {
+        bool isDeleted = await _todoService.DeleteAll();
+        if (isDeleted)
+        {
+            return NoContent();
+        }
+        return NotFound();
+    }
+
 
     [HttpPut("{id}")]
     public async Task<ActionResult<Todo>> UpdateToDo(int id, [FromBody] UpdateRequest updateRequest)

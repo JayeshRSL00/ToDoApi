@@ -1,3 +1,5 @@
+using ToDoApi.Tests.Shared;
+
 namespace ToDoApi.Tests.Integration.Fixtures;
 
 [CollectionDefinition("IntegrationCollection")]

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 
-namespace ToDoApi.Tests.Integration.Infrastructure;
+namespace ToDoApi.Tests.Shared;
 
 public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {

@@ -1,12 +1,11 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
 using StackExchange.Redis;
-using ToDoApi.Tests.Integration.Fixtures;
-using ToDoApi.Tests.Integration.Infrastructure;
-using Xunit;
 using ToDoApi.Models;
+using ToDoApi.Tests.Integration.Fixtures;
+using ToDoApi.Tests.Shared;
+using Xunit;
 
 namespace ToDoApi.Tests.Integration.Controllers
 {

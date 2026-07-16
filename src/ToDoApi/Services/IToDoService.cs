@@ -8,4 +8,5 @@ public interface IToDoService
     Task<Todo?> GetById(int id);
     Task<bool> DeleteById(int id);
     Task<Todo?> UpdateToDo(int id, UpdateRequest request);
+    Task<bool> DeleteAll();
 }
