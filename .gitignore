@@ -13,6 +13,7 @@
 **/obj/
 artifacts/
 publish/
+*.feature.cs
 
 ############################################################
 # Test Results & Coverage
@@ -49,10 +50,6 @@ coverage*.info
 
 # VS Code
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 
 # Rider / IntelliJ
 .idea/

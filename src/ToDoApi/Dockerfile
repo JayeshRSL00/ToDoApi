@@ -9,20 +9,19 @@ WORKDIR /src
 # Copy solution and project files first (better Docker layer caching)
 COPY ToDoApi.slnx .
 COPY src/ToDoApi/ToDoApi.csproj src/ToDoApi/
-COPY tests/ToDoApi.Tests/ToDoApi.Tests.csproj tests/ToDoApi.Tests/
 
 # Restore only the API project (this also restores referenced projects)
 RUN dotnet restore src/ToDoApi/ToDoApi.csproj
 
-# Copy the remaining source
-COPY . .
+# Copy the source code
+COPY src/ToDoApi src/ToDoApi/
 
 # Publish the API
 RUN dotnet publish src/ToDoApi/ToDoApi.csproj \
     -c Release \
     -o /app/publish \
-    --no-restore
-
+    --no-restore \
+    -p:UseAppHost=false
 
 # -------------------------
 # Stage 2: Runtime image

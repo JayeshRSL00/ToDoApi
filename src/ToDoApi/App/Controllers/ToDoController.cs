@@ -9,9 +9,9 @@ namespace ToDoApi.Controllers;
 [Route("api/[controller]")]
 public class ToDoController : ControllerBase
 {
-    private readonly ToDoService _todoService;
+    private readonly IToDoService _todoService;
 
-    public ToDoController(ToDoService toDoService)
+    public ToDoController(IToDoService toDoService)
     {
         _todoService = toDoService;
     }
@@ -46,6 +46,17 @@ public class ToDoController : ControllerBase
     public async Task<ActionResult<bool>> DeleteToDoById(int id)
     {
         bool isDeleted = await _todoService.DeleteById(id);
+        if (isDeleted)
+        {
+            return NoContent();
+        }
+        return NotFound();
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult<bool>> DeleteAllToDos()
+    {
+        bool isDeleted = await _todoService.DeleteAll();
         if (isDeleted)
         {
             return NoContent();
